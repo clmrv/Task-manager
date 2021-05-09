@@ -12,12 +12,10 @@ class TodoItem extends React.Component {
 
     this.state = {
       textStyles: {
-        color: "#000000",
-        fontFamily: "Helvetica",
         marginLeft: 10,
         pointerEvents: "none",
         opacity: 0,
-        transition: "color 150ms, opacity 500ms",
+        transition: "color 250ms, opacity 500ms",
       },
       checkboxStyles: {
         pointerEvents: "none",

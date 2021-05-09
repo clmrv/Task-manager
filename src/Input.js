@@ -1,13 +1,18 @@
 import React from "react"
 
-class AddNewItem extends React.Component {
+class Input extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       text: "",
       styles: {
+        outline: "none",
+        backgroundColor: "white",
+        borderStyle: "none",
+        borderBottom: "solid 1px #000000",
+
         opacity: 0,
-        transition: "opacity 500ms"
+        transition: "opacity 500ms",
       }
     }
 
@@ -36,11 +41,16 @@ class AddNewItem extends React.Component {
   }
 
   render() {
+    let widthInChars = Math.floor(this.props.width / 8) - 9
+    if (widthInChars < 12)
+      widthInChars = 12
+
     return (
       <div style={{display: "flex", justifyContent: "flex-start"}}>
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <input 
             type="text"
+            size={widthInChars.toString()}
             ref={this.inputRef} 
             value={this.state.text} 
             style={this.state.styles}
@@ -53,4 +63,4 @@ class AddNewItem extends React.Component {
   }
 }
 
-export default AddNewItem
+export default Input

@@ -1,15 +1,30 @@
 body {
+  padding-top: 40px;
   background-color: whitesmoke;
   height: 100%;
   display: flex;
   justify-content: center;
 }
 
+p, h1, h2, h3{
+  font-family: "Helvetica";
+  color: "#000000";
+}
+
+.listContainer {
+  display: flex; 
+  flex-direction: row;
+  align-items: center; 
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+
 .todoList {
   height: auto;
   display: flex;
   flex-direction: column;
-  margin-top: 40px;
+  margin: 40px;
   padding: 40px;
   background-color: white;
   border: solid lightgray 1px;
@@ -26,9 +41,3 @@ body {
   
 }
 
-input[type="text"] {
-  outline: none;
-  background-color: white;
-  border-style: none;
-  border-bottom: solid 1px #3282b8;
-}

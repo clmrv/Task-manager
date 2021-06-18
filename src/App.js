@@ -1,117 +1,104 @@
-import React from 'react'
-import TodoList from './TodoList'
-import AddButton from './AddButton'
+import { useState } from 'react'
+import TodoList from './TodoList/TodoList'
+import AddButton from './inputs/AddButton'
+import sampleInput from "./data/testData"
 
-import sampleInput from "./sampleInput"
+function App(props) {
+  const [lists, setLists] = useState(sampleInput)
 
-class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      lists: sampleInput,
+  const addList = () => {
+    let newListId = 1
+    if (lists.length > 0) {
+      newListId = lists[lists.length-1].id + 1
     }
 
+    const newList = {
+      id: newListId,
+      title: "",
+      items: [],
+    }
+    setLists( lists.concat([newList]) )
   }
 
-  addList() {
-    this.setState( prev => {
-      let newState = {...prev}
-      let newListId = 1
+  const markListItem = (listId, itemId) => {
+    // deep copy
+    let newLists = lists.map( (list) => {
+      const newList = {...list}
+      newList.items = list.items.map( (item) => {return {...item}})
+      return newList
+    }) 
 
-      if (prev.lists.length > 0) {
-        newListId = prev.lists[prev.lists.length-1].id + 1
-      }
-
-      const newList = {
-        id: newListId,
-        title: "",
-        items: [],
-      }
-
-      newState.lists.push(newList)
-      return newState
-    })
-  }
-
-  markListItem(listId, itemId) {
-    this.setState((prev) => {
-      let newState = {...prev}
-      newState.lists.map( (list) => {
-        if (list.id === listId) {
-          list.items.map( (item) => {
-            if (item.id === itemId) {
-              item.completed = !item.completed
-            }
-            return item
-          })
-        }
-        return list
-      })
-      return newState
-    })
-  }
-
-  addListItem(listId, text) {
-    this.setState( (prev) => {
-      let newState = {...prev}
-      let newItemId
-      newState.lists.map( (list) => {
-        if (list.id === listId) {
-          
-          if (list.items.length > 0) {
-            newItemId = list.items[list.items.length-1].id + 1
-          } else {
-            newItemId = 1
+    newLists.map( (list) => {
+      if (list.id === listId) {
+        list.items.map( (item) => {
+          if (item.id === itemId) { 
+            item.completed = !item.completed 
           }
-
-          const item = {
-            id: newItemId,
-            text: text,
-            completed: false,
-          }
-          list.items.push(item)
-        }
-        return list
-      })
-      return newState
+          return item
+        })
+      }
+    return list
     })
+
+    setLists(newLists)
   }
 
-  changeListTitle(listId, title) {
-    this.setState((prev) => {
-      let newState = {...prev}
-      newState.lists.map( (list) => {
-        if (list.id === listId) {
-          list.title = title
+  const addListItem = (listId, text) => {
+    // deep copy (w/o items)
+    let newLists = lists.map( (list) => {
+      const newList = {...list}
+      newList.items = [...list.items]
+      return newList
+    }) 
+    
+    newLists.map( (list) => {
+      if (list.id === listId) {
+        let newItemId = 1
+        if (list.items.length > 0) {
+          newItemId = list.items[list.items.length-1].id + 1
         }
-        return list
-      })
-      return newState
+
+        const item = {
+          id: newItemId,
+          text: text,
+          completed: false,
+        }
+        list.items.push(item) // works, because list.items is a reference
+      }
+      return list
     })
-      
-   
+
+    setLists(newLists)
   }
 
-  render() {
-    const lists = this.state.lists.map( (list) => 
-      <TodoList 
-        key={list.id} 
-        items={list.items} 
-        title={list.title} 
-        changeListTitle={(title) => this.changeListTitle(list.id, title)}
-        addListItem={(text) => this.addListItem(list.id, text)}
-        markListItem={(itemId) => this.markListItem(list.id, itemId)}  
-        />
-    )
+  const changeListTitle = (listId, title) => {
+    setLists(lists.map( (list) => {
+      if (list.id === listId) {
+        list.title = title
+      }
+      return list
+    }))
+  }
 
+  const listsComponents = lists.map( (list) => 
+    <TodoList 
+      key={list.id} 
+      items={list.items} 
+      title={list.title} 
+      changeListTitle={(title) => changeListTitle(list.id, title)}
+      addListItem={(text) => addListItem(list.id, text)}
+      markListItem={(itemId) => markListItem(list.id, itemId)}  
+    />
+  )
 
-    return (
-      <div className={"listContainer"}>
-        {lists}
-        <div style={{margin: 40}} ><AddButton onClick={() => this.addList()}/></div>
+  return (
+    <div className={"listContainer"}>
+      {listsComponents}
+      <div style={{margin: 40}} >
+        <AddButton onClick={() => addList()} />
       </div>
-    )
-  }
-}
-
+    </div>
+  )
+}      
+  
 export default App

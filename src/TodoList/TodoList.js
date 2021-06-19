@@ -2,17 +2,27 @@ import { useEffect, useState } from "react"
 import TodoItem from "./TodoItem"
 import Input from "../inputs/Input"
 import AddButton from "../inputs/AddButton"
+import { listTitleChanged, listItemAdded, listItemMarked } from '../store/actions'
+import { useDispatch, useSelector } from "react-redux"
 
 
 function TodoList(props) {
+  const dispatch = useDispatch()
+  const listData = useSelector((store) => store.find((list) => list.id === props.id) )
+  
+  /*
+    improvement todo? :
+      move mode to redux store
+  */
+
   const [addTaskMode, setAddTaskMode] = useState(false)
   const [changeTitleMode, setChangeTitleMode] = useState(false)
 
   useEffect(() => {
-    if (!props.title) {
+    if (!listData.title) {
       setChangeTitleMode(true)
     }
-  }, [props.title])
+  }, [listData.title])
 
 
   const handleAddButton = () => {
@@ -21,29 +31,29 @@ function TodoList(props) {
 
   const addListItem = (text) => {
     if (text !== "") {
-      props.addListItem(text)
+      dispatch(listItemAdded(listData.id, text))
     }
     setAddTaskMode(false)
   }
 
   const changeTitle = (title) => {
     if (title !== "") {
-      props.changeListTitle(title)
+      dispatch(listTitleChanged(listData.id, title))
       setChangeTitleMode(false)
     }
   }
 
-  let title = <span style={{alignSelf: "center"}}><h2>{props.title}</h2></span>
+  let titleView = <span style={{alignSelf: "center"}}><h2>{listData.title}</h2></span>
   if (!addTaskMode) {
     if (changeTitleMode) {
-      title = <span style={{alignSelf: "center"}} ><Input onSubmit={(text) => changeTitle(text)} /></span>
+      titleView = <span style={{alignSelf: "center"}} ><Input onSubmit={(text) => changeTitle(text)} /></span>
     } else {
-      title = <span onClick={() => setChangeTitleMode(true)} style={{alignSelf: "center"}}><h2>{props.title}</h2></span>
+      titleView = <span onClick={() => setChangeTitleMode(true)} style={{alignSelf: "center"}}><h2>{listData.title}</h2></span>
     }
   }
 
-  const items = props.items.map( (item) => 
-    <TodoItem key={item.id} item={item} onChange={() => props.markListItem(item.id)} />
+  const items = listData.items.map( (item) => 
+    <TodoItem key={item.id} item={item} onChange={() => dispatch(listItemMarked(listData.id, item.id))} />
   )
 
   let newTaskPlaceholderStyles = {
@@ -62,7 +72,7 @@ function TodoList(props) {
 
   return (
     <div className="todoList">
-      {title}
+      {titleView}
       {items}
       <div style={newTaskPlaceholderStyles}>
         {newTaskPlaceholder}

@@ -4,6 +4,7 @@ import Input from "../inputs/Input"
 import AddButton from "../inputs/AddButton"
 import { listTitleChanged, listItemAdded, listItemMarked } from '../store/actions'
 import { useDispatch, useSelector } from "react-redux"
+import * as styles from './styles'
 
 
 function TodoList(props) {
@@ -43,29 +44,41 @@ function TodoList(props) {
     }
   }
 
-  let titleView = <span style={{alignSelf: "center"}}><h2>{listData.title}</h2></span>
+  let titleView = <h2 style={{alignSelf: "center"}}>{listData.title}</h2>
   if (!addTaskMode) {
     if (changeTitleMode) {
-      titleView = <span style={{alignSelf: "center"}} ><Input onSubmit={(text) => changeTitle(text)} /></span>
+      titleView = (
+        <div style={styles.titleInputContainer}>
+          <Input onSubmit={(text) => changeTitle(text)} text={listData.title} />
+        </div>
+      )
     } else {
-      titleView = <span onClick={() => setChangeTitleMode(true)} style={{alignSelf: "center"}}><h2>{listData.title}</h2></span>
+      titleView = ( 
+          <h2 onClick={() => setChangeTitleMode(true)} style={{alignSelf: "center"}}>
+            {listData.title}
+          </h2>
+      )
     }
   }
 
   const items = listData.items.map( (item) => 
-    <TodoItem key={item.id} item={item} onChange={() => dispatch(listItemMarked(listData.id, item.id))} />
+    <TodoItem 
+      key={item.id} 
+      item={item} 
+      onChange={() => dispatch(listItemMarked(listData.id, item.id))} 
+    />
   )
 
-  let newTaskPlaceholderStyles = {
-    alignSelf: "center",
-    maxHeight: 19,
-  }
+  
   let newTaskPlaceholder
+  let newTaskPlaceholderStyles
+
   if (!changeTitleMode) {
     if (addTaskMode) {
+      newTaskPlaceholderStyles = styles.inputContainer
       newTaskPlaceholder = <Input onSubmit={(text) => addListItem(text)} />
     } else {
-      Object.assign(newTaskPlaceholderStyles, {alignSelf: "flex-end", position: "relative", bottom: 12, left: 10})
+      newTaskPlaceholderStyles = styles.addNewTaskButtonContainer
       newTaskPlaceholder = <AddButton onClick={() => handleAddButton()} />
     }
   }

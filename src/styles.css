@@ -11,34 +11,4 @@ p, h1, h2, h3{
   color: "#000000";
 }
 
-.listContainer {
-  display: flex; 
-  flex-direction: row;
-  align-items: center; 
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-
-.todoList {
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  margin: 40px;
-  padding: 40px;
-  background-color: white;
-  border: solid white 1px;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
-}
-
-.todoItem {
-  margin: 0;
-  padding: 0;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  
-}
 

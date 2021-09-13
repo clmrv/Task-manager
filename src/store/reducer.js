@@ -1,7 +1,7 @@
-import * as actions from "./actionTypes"
-import testData from '../data/testData'
+import * as actions from "./actions"
+import testData from './testData'
 
-function reducer(store = testData, action) {
+export default function reducer(store = testData, action) {
   const listId = action?.payload?.listId
   
   switch(action.type) {
@@ -49,5 +49,3 @@ function reducer(store = testData, action) {
       return store
   }
 }
-
-export default reducer

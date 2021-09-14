@@ -10,7 +10,7 @@ export const TodoItemContainer = styled.div`
   &:hover {
     cursor: pointer;
   }
-`
+`;
 
 export const ItemText = styled.p`
   color: black;
@@ -18,9 +18,11 @@ export const ItemText = styled.p`
   pointer-events: none;
   transition: color 250ms;
 
-  ${props => props.completed && css`
-    color: #bbbbbb;
-    text-decoration: line-through;
-    font-style: italic;
-  `}
-`
+  ${(props) =>
+    props.completed &&
+    css`
+      color: #bbbbbb;
+      text-decoration: line-through;
+      font-style: italic;
+    `}
+`;

@@ -1,29 +1,26 @@
-import TextField from '@material-ui/core/TextField';
-import { useState } from 'react';
+import TextField from "@material-ui/core/TextField";
+import { useState } from "react";
 
 function Input(props) {
-  const [text, setText] = useState(props.text || '')
-  
+  const [text, setText] = useState(props.text || "");
+
   const onSubmit = (e) => {
-    props.onSubmit(text)
-    e.preventDefault()
-  }
+    props.onSubmit(text);
+    e.preventDefault();
+  };
 
   return (
-    <form 
-      style={{width: "100%"}}
-      onSubmit={onSubmit} 
-    >
-      <TextField 
-        id="todoInput" 
-        value={text} 
-        onChange={(e) => setText(e.target.value)} 
+    <form style={{ width: "100%" }} onSubmit={onSubmit}>
+      <TextField
+        id="todoInput"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
         onBlur={onSubmit}
         autoFocus
         fullWidth
       />
     </form>
-  )
+  );
 }
 
-export default Input
+export default Input;

@@ -1,11 +1,16 @@
-import * as actions from "./actions";
+import {
+  LIST_ADDED,
+  LIST_TITLE_CHANGED,
+  LIST_ITEM_ADDED,
+  LIST_ITEM_MARKED,
+} from "../../actions/actions";
 import testData from "./testData";
 
 export default function reducer(store = testData, action) {
-  const listId = action?.payload?.listId;
+  const { type, payload } = action;
 
-  switch (action.type) {
-    case actions.listAdded:
+  switch (type) {
+    case LIST_ADDED:
       return [
         ...store,
         {
@@ -15,14 +20,19 @@ export default function reducer(store = testData, action) {
         },
       ];
 
-    case actions.listTitleChanged:
-      const newTitle = action.payload.newTitle;
+    case LIST_TITLE_CHANGED: {
+      const listId = payload.listId;
+      const newTitle = payload.newTitle;
+
       return store.map((list) =>
         list.id !== listId ? list : { ...list, title: newTitle }
       );
+    }
 
-    case actions.listItemAdded:
-      const newItemText = action.payload.newItemText;
+    case LIST_ITEM_ADDED: {
+      const listId = payload.listId;
+      const newItemText = payload.newItemText;
+
       return store.map((list) =>
         list.id !== listId
           ? list
@@ -41,9 +51,12 @@ export default function reducer(store = testData, action) {
               ],
             }
       );
+    }
 
-    case actions.listItemMarked:
-      const itemId = action.payload.itemId;
+    case LIST_ITEM_MARKED: {
+      const listId = payload?.listId;
+      const itemId = payload.itemId;
+
       return store.map((list) =>
         list.id !== listId
           ? list
@@ -59,6 +72,7 @@ export default function reducer(store = testData, action) {
               ),
             }
       );
+    }
 
     default:
       return store;

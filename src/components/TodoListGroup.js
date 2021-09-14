@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { listAdded } from "../store/actionCreators";
+import { listAdded } from "../actions/actionCreators";
 import TodoList from "./TodoList";
 import AddButton from "./AddButton";
 
@@ -30,7 +30,7 @@ const AddButtonWrapper = ({ children }) => (
 
 export default function TodoListGroup() {
   const dispatch = useDispatch();
-  const lists = useSelector((state) => state);
+  const lists = useSelector((state) => state.todoLists);
 
   const listsComponents = lists.map((list) => (
     <TodoList key={list.id} id={list.id} />

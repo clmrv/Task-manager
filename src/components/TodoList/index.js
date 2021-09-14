@@ -4,7 +4,7 @@ import {
   listTitleChanged,
   listItemAdded,
   listItemMarked,
-} from "../../store/actionCreators";
+} from "../../actions/actionCreators";
 import TodoItem from "../TodoItem";
 import Input from "../Input";
 import AddButton from "../AddButton";
@@ -17,7 +17,9 @@ import {
 
 export default function TodoList({ id }) {
   const dispatch = useDispatch();
-  const listData = useSelector((store) => store.find((list) => list.id === id));
+  const listData = useSelector((store) =>
+    store.todoLists.find((list) => list.id === id)
+  );
 
   /*
     improvement todo:

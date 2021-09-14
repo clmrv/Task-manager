@@ -1,0 +1,4 @@
+export const LIST_ADDED = "LIST_ADDED";
+export const LIST_TITLE_CHANGED = "LIST_TITLE_CHANGED";
+export const LIST_ITEM_ADDED = "LIST_ITEM_ADDED";
+export const LIST_ITEM_MARKED = "LIST_ITEM_MARKED";

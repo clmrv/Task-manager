@@ -1,11 +1,11 @@
 import * as actions from "./actions";
 
 export const listAdded = () => ({
-  type: actions.listAdded,
+  type: actions.LIST_ADDED,
 });
 
 export const listTitleChanged = (listId, newTitle) => ({
-  type: actions.listTitleChanged,
+  type: actions.LIST_TITLE_CHANGED,
   payload: {
     listId: listId,
     newTitle: newTitle,
@@ -13,7 +13,7 @@ export const listTitleChanged = (listId, newTitle) => ({
 });
 
 export const listItemAdded = (listId, newItemText) => ({
-  type: actions.listItemAdded,
+  type: actions.LIST_ITEM_ADDED,
   payload: {
     listId: listId,
     newItemText: newItemText,
@@ -21,7 +21,7 @@ export const listItemAdded = (listId, newItemText) => ({
 });
 
 export const listItemMarked = (listId, itemId) => ({
-  type: actions.listItemMarked,
+  type: actions.LIST_ITEM_MARKED,
   payload: {
     listId: listId,
     itemId: itemId,

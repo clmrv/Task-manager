@@ -1,4 +1,4 @@
-const input = [
+const testTodoLists = [
   {
     id: 1,
     title: "My list",
@@ -22,4 +22,4 @@ const input = [
   },
 ];
 
-export default input;
+export default testTodoLists;
